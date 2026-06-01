@@ -1,0 +1,30 @@
+{
+  "name": "teakjs",
+  "version": "0.0.2",
+  "description": "a frontend frmwrk with js class tmpltes, OTAs, & state mgmt",
+  "main": "compiler.js",
+  "scripts": {
+    "build":"node compiler.js",
+    "start":"npx serve .",
+    "test": "node tests/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moskalyk/teakjs.git"
+  },
+  "keywords": [
+    "dynamics",
+    "frontend",
+    "html",
+    "js",
+    "OTAs",
+    "state",
+    "management"
+  ],
+  "author": "Ṅero Moskalyk <@moskalyk>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/moskalyk/teakjs/issues"
+  },
+  "homepage": "https://github.com/moskalyk/teakjs#readme"
+}
