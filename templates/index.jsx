@@ -1,3 +1,5 @@
+const Newsletter = require('./Newsletter')
+
 class IndexPage {
 	constructor(){}
 	
@@ -15,6 +17,7 @@ class IndexPage {
 		return <>
 			<div>
                 <p>fe hell gone (^if -you *want)</p>
+                <Newsletter/>
                 <button onclick="this.clck">clck</button>
                 <button onclick="this.clckVal">clck w/ val</button>
 			</div>
