@@ -1,6 +1,6 @@
 {
   "name": "teakjs",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "a frontend frmwrk with js class tmpltes, OTAs, & state mgmt",
   "main": "compiler.js",
   "scripts": {

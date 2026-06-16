@@ -1,25 +1,28 @@
 const Newsletter = require('./Newsletter')
 
-class IndexPage {
-	constructor(){}
-	
-	async clck() {
-		const wait = (ms) => new Promise((res) => setTimeout(res, ms))
-		await wait(1000)
-		alert('clicked')
+class IndexPage extends EventTarget {
+	constructor(){
+		super()
 	}
 	
 	clckVal() {
+		document.getElementById('role').value = 'Master Chief'
 		alert('db call TODO')
 	}
+	
+	async clck() {
 
+	}
+	
 	async view() {
 		return <>
 			<div>
                 <p>fe hell gone (^if -you *want)</p>
                 <Newsletter/>
-                <button onclick="this.clck">clck</button>
+                <br/>
+                <p id='role'>MC</p>
                 <button onclick="this.clckVal">clck w/ val</button>
+                <button onclick="this.clckLstnr">clck w/ lstnr</button>
 			</div>
 		</>
 	} 
