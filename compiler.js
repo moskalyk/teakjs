@@ -2,7 +2,8 @@
 const {open, writeFile} = require('node:fs/promises');
 
 (async () => {
-
+	
+	// default index
 	const file = await open('./templates/index.jsx')
 
 	const fh1 = await file.stat([])
@@ -62,7 +63,7 @@ const {open, writeFile} = require('node:fs/promises');
 		const reg1 = /onchange=".+\((.+)\)"/
 		const thisValChange = nlContents.match(reg)
 		const thisValChangeValue = nlContents.match(reg1)
-		const functionString = `(async (val) => {${matchesHandlers[i]}})(${thisValChangeValue[1]})`
+		const functionString = `(async (val, self) => {email = val;db.put('name', email);${matchesHandlers[i]}})(${thisValChangeValue[1]}, indexPage)`
 		nlContents = nlContents.replace(thisValChange[1], functionString)
 	})
 	
@@ -71,6 +72,75 @@ const {open, writeFile} = require('node:fs/promises');
 	// TODO: confirm that it is required in destination file
 	// TODO: prevent cyclical imports
 	
+	const dynamicsDecorators = /.*@dynamics\('(.+)'\).*/
+	
+	const dynamicsVar = nl.toString().match(dynamicsDecorators)
+	console.log(dynamicsVar[1])
+	
+	const clickHandlers = `
+		indexPage.addEventListener('something', (e) => {
+		  document.getElementById('role').innerHTML = 'Master Chief, Versus Energy Innovations'
+		});
+		
+		nl.addEventListener('dynamics', async (e) => {
+			const secondContents = await nl.view(false)
+
+			const main = contents.replaceAll('<Newsletter/>', secondContents)
+			element.setHTMLUnsafe(main)
+		})
+	`
+
+	// click handlers appends
+	console.log(clickHandlers)
+	writtenFile = writtenFile.replace('&)', clickHandlers)
+	
+	nl = nl.replace("@dynamics('email')", '')
+	
+	nl = nl.replaceAll('async view()', 'async view(onload)')
+	nl = nl.replaceAll("await db.get('email')", "await db.get('email', onload)")
+	nl = nl.replaceAll("{await db.get('email', onload)}", "\\{\\$\\{await db.get('name', onload)\\}\\}")
 	writtenFile = writtenFile.replace('!=', nl.toString())
+
+	const vfaasCode = `
+	const vf = new VFAASNet({protocol: 'ws', host: '127.0.0.1', port: 8080})
+
+	db = {
+		get: async (key, onload) => {
+			const update = (datum) => {
+					nl.dispatchEvent(new Event('dynamics'))
+
+					res(datum.msg.value)
+			}
+			vf.aPath(update)
+			
+
+			
+			vf.aBoot(({boot}) => {
+			   vf.webSocket.send('client', JSON.stringify({status: 204, msg: 'msg send'}))
+			})
+
+			const promise = (update) => {
+				return new Promise((res, rej) => {
+					const update = (datum) => {
+							res(datum.msg.value)
+					}			
+					vf.aPath(update)
+				})
+			}
+		
+			if(onload) {
+				return 0
+			}else {
+
+				return await promise(update)
+			}
+		},
+		put: async (key, value) => {
+			vf.webSocket.send('update', JSON.stringify({status: 170, msg: {key: key, value: value}}))
+		}
+	};
+	`
+	
+	writtenFile = writtenFile.replace('^&', vfaasCode.toString())
 	await writeFile('./prod.js', writtenFile)
 })()
