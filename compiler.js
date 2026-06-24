@@ -32,12 +32,12 @@ const {open, writeFile} = require('node:fs/promises');
 	
 	matchesFuncs = matchesFuncs.map((matches) => matches.replace('async ','').replace('\t', ''))
 
-	matchesFuncs.slice(1,matchesFuncs.length-1).map((matchesFunc, i) => {
-		let stringArray = writtenFile.indexOf('onclick="this.')
-		let stringArrayEnd = writtenFile.indexOf(matchesFunc.trim() + '">')
-		const functionString = `(async () => {${matches[i+1]}})()`
-		writtenFile = writtenFile.replace(writtenFile.slice(stringArray+9, stringArrayEnd+matchesFunc.length), functionString)
-	})
+	// matchesFuncs.slice(1,matchesFuncs.length-1).map((matchesFunc, i) => {
+	// 	let stringArray = writtenFile.indexOf('onclick="this.')
+	// 	let stringArrayEnd = writtenFile.indexOf(matchesFunc.trim() + '">')
+	// 	const functionString = `(async () => {${matches[i+1]}})()`
+	// 	writtenFile = writtenFile.replace(writtenFile.slice(stringArray+9, stringArrayEnd+matchesFunc.length), functionString)
+	// })
 	
 
 	writtenFile = writtenFile.replace("const Newsletter = require('./Newsletter')", '')
