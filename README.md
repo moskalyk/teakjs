@@ -7,11 +7,9 @@ a frontend frmwrk with js class tmplte composition, OTAs, & db state mgmt
 3. async class functions
 4. component composition classes
 5. onchange input handler
+6. db dynamic variables
+7. live server reload
 
 ### TODOs
 - [ ] abstracted features (i.e. composition & handlers (onclick & onchange) within eval) 
-- [ ] db dynamic variables
-- [ ] id identifiers
-- [ ] tests
-- [ ] live server reload
 - [ ] OTA components
