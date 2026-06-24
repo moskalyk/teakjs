@@ -5,6 +5,7 @@
   "main": "compiler.js",
   "scripts": {
     "build":"node compiler.js",
+    "watcher": "node liveReload/index.js",
     "start":"npx serve .",
     "test": "node tests/*.test.js"
   },
